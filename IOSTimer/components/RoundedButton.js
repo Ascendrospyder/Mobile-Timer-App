@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import { styles } from "./RoundedButton.styles"
+import { styles } from "./RoundedButton.styles";
 
 export const RoundedButton = ({
   text,
@@ -24,5 +24,3 @@ export const RoundedButton = ({
     </Pressable>
   );
 };
-
-
