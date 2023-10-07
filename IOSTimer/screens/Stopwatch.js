@@ -26,8 +26,6 @@ export default function Stopwatch() {
     return mins + ":" + seconds; // if the string length of seconds is less than 2 append the 0 in front
   };
 
-  // introducing reusable components
-
   return (
     <View style={styles.container}>
       <Text style={styles.elapsedTime}>{formatTimeFunction(currentTime)}</Text>

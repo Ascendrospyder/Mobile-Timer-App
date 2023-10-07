@@ -1,5 +1,12 @@
 import Stopwatch from "./screens/Stopwatch";
+import Timer from "./screens/Timer";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
-  return <Stopwatch />;
+  return (
+    <NavigationContainer>
+      <Stopwatch />
+    </NavigationContainer>
+  )
+    
 }
