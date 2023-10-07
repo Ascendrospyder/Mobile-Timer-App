@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 export default function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [isResetEnabled, setIsResetEnabled] = useState(false);
   let intervalId = null;
 
   useEffect(() => {
@@ -18,10 +17,6 @@ export default function App() {
     return () => clearInterval(intervalId);
   }, [isRunning]);
 
-  const onPress = () => {
-    alert("Hello, World!");
-  };
-
   const formatTimeFunction = (totalSeconds) => {
     const mins = `${Math.floor(totalSeconds / 60)}`.padStart(2, "0"); // in case its 63 that will give 1.333 we want to floor that
     const seconds = `${totalSeconds % 60}`.padStart(2, "0");
@@ -29,17 +24,6 @@ export default function App() {
     return mins + ":" + seconds; // if the string length of seconds is less than 2 append the 0 in front
   };
 
-  const onReset = () => {
-    // only reset when the timer is not running and is stopped
-    if (!isRunning) {
-      setCurrentTime(0);
-      setIsResetEnabled(false);
-    }
-  };
-
-  useEffect(() => {
-    setIsResetEnabled(true);
-  }, [isRunning]);
 
   // introducing reusable components
   const RoundedButton = ({
@@ -47,17 +31,17 @@ export default function App() {
     textColour,
     buttonColour,
     onPressFunction,
-    isDisabled,
+    disabled,
   }) => {
     return (
       <Pressable
         onPress={onPressFunction}
         style={({ pressed }) => ({
           ...styles.outerButton,
-          opacity: pressed ? 0.5 : undefined,
+          opacity: pressed || disabled ? 0.5 : undefined,
           borderColor: buttonColour,
         })}
-        disabled={isDisabled}
+        disabled={disabled}
       >
         <View style={[styles.innerButton, { backgroundColor: buttonColour }]}>
           <Text style={[styles.buttonText, { color: textColour }]}>{text}</Text>
@@ -74,8 +58,8 @@ export default function App() {
           text={"Reset"}
           textColour={"white"}
           buttonColour={"grey"}
-          onPressFunction={onReset}
-          disabled={!isResetEnabled}
+          onPressFunction={() => setCurrentTime(0)}
+          disabled={isRunning || currentTime == 0}
         />
         {isRunning ? ( // check if isRunning, then we show the stop, if not show start
           <RoundedButton
