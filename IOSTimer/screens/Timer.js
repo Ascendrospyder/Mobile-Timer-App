@@ -3,6 +3,7 @@ import { styles } from "./Timer.styles";
 import { useEffect, useState } from "react";
 import { formatTimeFunction } from "../Utility/formatTime";
 import { RoundedButton } from "../components/RoundedButton";
+import { Picker } from "@react-native-picker/picker";
 
 export default function Timer() {
   const [isRunning, setIsRunning] = useState(false);
@@ -27,9 +28,26 @@ export default function Timer() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.elapsedTime}>
-        {formatTimeFunction(remainingSeconds)}
-      </Text>
+      {isRunning ? (
+        <Text style={styles.elapsedTime}>
+          {formatTimeFunction(remainingSeconds)}
+        </Text>
+      ) : (
+        <View>
+          <Picker
+            style={{ width: 100 }}
+            itemStyle={{ color: "white" }}
+            selectedValue={"js"}
+            // onValueChange={(itemValue, itemIndex) =>
+            //   setSelectedLanguage(itemValue)
+            // }
+          >
+            <Picker.Item label="Java" value="java" />
+            <Picker.Item label="JavaScript" value="js" />
+          </Picker>
+        </View>
+      )}
+
       <View style={styles.buttonContainer}>
         <RoundedButton
           text={"Cancel"}
